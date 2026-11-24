@@ -1,19 +1,68 @@
+---
+// =========================================================
+// LUQS COLLECTION — SEMUA teks, harga & gambar ada dalam fail ini.
+// Tukar data di bahagian atas ni; HTML di bawah akan ikut sendiri.
+// =========================================================
+import "../styles/style.css";
+import Pic from "../components/Pic.astro";
+import { getImage } from "astro:assets";
+import ogSrc from "../assets/images/pakej-larian.jpeg";
+
+// Nombor WhatsApp (format: 60 + nombor tanpa 0 depan). Kena tukar juga dalam src/scripts/main.js
+const WA = "601157812217";
+const WA_DISPLAY = "+60 11-5781 2217";
+const wa = (text?: string) => `https://wa.me/${WA}` + (text ? `?text=${encodeURIComponent(text)}` : "");
+
+const qtyTiers = [
+  { qty: "10 – 19 PCS", price: "RM27" },
+  { qty: "19 – 50 PCS", price: "RM25" },
+  { qty: "50 – 100 PCS", price: "RM23", best: true },
+  { qty: "100 – 199 PCS", price: "RM21" },
+  { qty: "199 – 299 PCS", price: "RM19" },
+];
+
+// [nama, harga] — "FREE" = hijau, bermula "-" = diskaun, "Ask" = tanya
+const kain = [["Eyelet", "FREE"], ["Mini-Eyelet", "FREE"], ["Interlock", "FREE"], ["Ultron", "+RM3"], ["RJPK", "+RM3"], ["Diamond", "+RM3"], ["Mini Square", "+RM3"], ["Polycotton", "+RM4"], ["Lycra", "+RM7"], ["JQ Hole", "+RM10"], ["Baseball <small>(Min 50 pcs)</small>", "+RM10"], ["Others", "Ask"]];
+const kolar = [["Roundneck", "FREE"], ["Polo", "+RM3"], ["V-Neck", "+RM3"], ["Retro", "+RM3"], ["Mandarin", "+RM3"], ["NFL", "+RM3"], ["Add Zipper", "+RM2"]];
+const lengan = [["Shortsleeve", "FREE"], ["Longsleeve", "+RM3"], ["Raglan", "+RM4"], ["Muslimah", "+RM8"], ["Sleeveless", "-RM1"], ["Singlet", "-RM1 / -RM0.50"]];
+const upsize = [["3XL", "+RM2"], ["4XL", "+RM4"], ["5XL", "+RM6"], ["6XL", "+RM8"], ["7XL", "+RM10"], ["8XL", "+RM12"], ["Kids Size", "-RM2"]];
+const lain = [["Backtape", "+RM1"], ["Cuff", "+RM3"], ["Grip", "+RM2"], ["Pocket", "+RM3"], ["Rib", "+RM2"], ["Name / Number", "+RM3"]];
+const priceClass = (p: string) => (p === "FREE" ? "free" : p === "Ask" ? "ask" : p.startsWith("-") ? "minus" : undefined);
+
+const galeri = [
+  { file: "galeri-futsal.jpeg", tag: "Jersi Futsal & Sukan", title: "Jersi Pasukan Futsal / Sukan RNI", desc: "Cetakan full sublimation corak eksklusif, kain ringan & cepat serap peluh." },
+  { file: "galeri-sekolah-ppki.jpeg", tag: "Program Sekolah & PPKI", title: "Baju Program Sekolah / Terapi Boling & Sambutan Hari Lahir Murid PPKI", desc: "Tempahan pukal warga pendidik & murid SMK Belara dengan potongan Muslimah & standard." },
+  { file: "galeri-catur.jpeg", tag: "Kejohanan Catur", title: "Baju Kejohanan Catur & Program Sekolah", desc: "Seragam rasmi peserta dan urusetia kejohanan, kemas dan selesa dipakai sepanjang hari." },
+  { file: "galeri-universiti.jpeg", tag: "Kontinjen Universiti", title: "Baju Korporat / Batik Sublimation Kontinjen Pelajar Universiti", desc: "Kolar mandarin/polo moden dengan motif batik eksklusif & identiti rasmi kontinjen pelajar." },
+];
+
+const testimoni = [
+  { file: "testimoni-mahasiswa.jpeg", name: "Program Mahasiswa Untuk Semua", initials: "PM", quote: "Size ngam, print baju pon sangat detail ikut design yang diberi. Langsung tak pecah... Untuk harga sangat berbaloi dengan kualiti serta baju siap dalam masa yang diberikan." },
+  { file: "testimoni-danish.jpeg", name: "Danish Adam (UTM)", initials: "DA", quote: "Kualiti tiptop memang padu gilee... dari segi kain tu selesa sangat ketika untuk bersukan ni dan cepat serap peluh memang sangat recommended dan untuk servis pula memang admin selalu balas chat dengan laju tak sampai seminit pun dah balas..." },
+];
+
+const nav = [["#pakej", "Pakej Larian RM35"], ["#harga", "Senarai Harga"], ["#galeri", "Galeri Tempahan"], ["#testimoni", "Testimoni"], ["#hubungi", "Hubungi Kami"]];
+const jenisTempahan = ["Pakej Larian RM35 / Set", "Jersi Sukan / Futsal", "Baju Korporat / Batik", "Baju Program Sekolah / Universiti", "Lain-lain"];
+
+const title = "LUQS Collection | Custom Jersey & Sublimation Printing";
+const ogImage = new URL((await getImage({ src: ogSrc, width: 1200, format: "jpg" })).src, Astro.site).href;
+const year = new Date().getFullYear();
+---
 <!DOCTYPE html>
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUQS Collection | Custom Jersey & Sublimation Printing</title>
-  <meta name="description" content="Cetak jersi & baju korporat custom design, full sublimation. Pakej larian RM35/set (baju + running bib + medal besi). Harga bermula RM19/helai. WhatsApp +60 11-5781 2217.">
-  <meta property="og:title" content="LUQS Collection | Custom Jersey & Sublimation Printing">
+  <title>{title}</title>
+  <meta name="description" content={`Cetak jersi & baju korporat custom design, full sublimation. Pakej larian RM35/set (baju + running bib + medal besi). Harga bermula RM19/helai. WhatsApp ${WA_DISPLAY}.`}>
+  <meta property="og:title" content={title}>
   <meta property="og:description" content="Jersi custom bermula RM19/helai. Pakej Larian RM35/set. Respon admin bawah 1 minit.">
-  <meta property="og:image" content="images/pakej-larian.jpeg">
+  <meta property="og:image" content={ogImage}>
   <meta name="theme-color" content="#0b1220">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23ff3d2e'/><text x='50' y='66' font-size='48' font-family='Arial' font-weight='bold' text-anchor='middle' fill='white'>LC</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
@@ -34,12 +83,8 @@
       </a>
 
       <nav class="nav-links" id="navLinks">
-        <a href="#pakej"><span class="tag-hot">HOT</span> Pakej Larian RM35</a>
-        <a href="#harga">Senarai Harga</a>
-        <a href="#galeri">Galeri Tempahan</a>
-        <a href="#testimoni">Testimoni</a>
-        <a href="#hubungi">Hubungi Kami</a>
-        <a href="https://wa.me/601157812217" target="_blank" rel="noopener" class="btn btn-wa btn-sm nav-wa">WhatsApp Sekarang</a>
+        {nav.map(([href, label], i) => <a href={href}>{i === 0 && <span class="tag-hot">HOT</span>} {label}</a>)}
+        <a href={wa()} target="_blank" rel="noopener" class="btn btn-wa btn-sm nav-wa">WhatsApp Sekarang</a>
       </nav>
 
       <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
@@ -60,7 +105,7 @@
         </p>
         <div class="hero-cta">
           <a href="#hubungi" class="btn btn-primary">Tempah Sekarang / Lock Slot</a>
-          <a href="https://wa.me/601157812217" target="_blank" rel="noopener" class="btn btn-wa">WhatsApp +60 11-5781 2217</a>
+          <a href={wa()} target="_blank" rel="noopener" class="btn btn-wa">WhatsApp {WA_DISPLAY}</a>
         </div>
 
         <div class="features">
@@ -102,7 +147,7 @@
   <section class="section section-dark" id="pakej">
     <div class="container pakej-grid">
       <figure class="pakej-image zoomable" data-caption="Set Lengkap Neon Run — Baju Sublimation + Running Bib 01 + Medal Besi">
-        <img src="images/pakej-larian.jpeg" alt="Set Lengkap Neon Run: Baju Sublimation, Running Bib dan Medal Besi" loading="lazy">
+        <Pic file="pakej-larian.jpeg" alt="Set Lengkap Neon Run: Baju Sublimation, Running Bib dan Medal Besi" />
         <span class="zoom-hint">🔍 Klik Besarkan</span>
         <figcaption>
           <strong>SET LENGKAP NEON RUN</strong>
@@ -146,7 +191,7 @@
 
         <div class="hero-cta">
           <a href="#hubungi" class="btn btn-primary" data-jenis="Pakej Larian RM35 / Set">Lock Slot Pakej RM35 Sekarang</a>
-          <a href="https://wa.me/601157812217?text=Hi%20LUQS%20Collection%2C%20saya%20berminat%20dengan%20Pakej%20Larian%20RM35%2Fset." target="_blank" rel="noopener" class="btn btn-wa">WhatsApp Admin</a>
+          <a href={wa("Hi LUQS Collection, saya berminat dengan Pakej Larian RM35/set.")} target="_blank" rel="noopener" class="btn btn-wa">WhatsApp Admin</a>
         </div>
       </div>
     </div>
@@ -165,11 +210,9 @@
       <div class="price-block">
         <h3><span class="num">1</span> Harga Base Mengikut Kuantiti <small>(Quantity &amp; Price)</small></h3>
         <div class="qty-grid">
-          <div class="qty-card"><span>10 – 19 PCS</span><strong>RM27</strong><small>/ helai</small></div>
-          <div class="qty-card"><span>19 – 50 PCS</span><strong>RM25</strong><small>/ helai</small></div>
-          <div class="qty-card qty-card--best"><em>PALING LARIS</em><span>50 – 100 PCS</span><strong>RM23</strong><small>/ helai</small></div>
-          <div class="qty-card"><span>100 – 199 PCS</span><strong>RM21</strong><small>/ helai</small></div>
-          <div class="qty-card"><span>199 – 299 PCS</span><strong>RM19</strong><small>/ helai</small></div>
+          {qtyTiers.map((t) => (
+            <div class:list={["qty-card", { "qty-card--best": t.best }]}>{t.best && <em>PALING LARIS</em>}<span>{t.qty}</span><strong>{t.price}</strong><small>/ helai</small></div>
+          ))}
           <div class="qty-card qty-card--nego"><span>299 PCS KE ATAS</span><strong>NEGO</strong><small>Harga Istimewa Pukal</small></div>
         </div>
       </div>
@@ -178,74 +221,31 @@
         <!-- 2. Jenis Kain -->
         <div class="price-block">
           <h3><span class="num">2</span> Jenis Kain <small>(Fabric)</small></h3>
-          <ul class="price-list">
-            <li>Eyelet <b class="free">FREE</b></li>
-            <li>Mini-Eyelet <b class="free">FREE</b></li>
-            <li>Interlock <b class="free">FREE</b></li>
-            <li>Ultron <b>+RM3</b></li>
-            <li>RJPK <b>+RM3</b></li>
-            <li>Diamond <b>+RM3</b></li>
-            <li>Mini Square <b>+RM3</b></li>
-            <li>Polycotton <b>+RM4</b></li>
-            <li>Lycra <b>+RM7</b></li>
-            <li>JQ Hole <b>+RM10</b></li>
-            <li>Baseball <small>(Min 50 pcs)</small> <b>+RM10</b></li>
-            <li>Others <b class="ask">Ask</b></li>
-          </ul>
+          <ul class="price-list">{kain.map(([n, p]) => <li><Fragment set:html={n} /> <b class={priceClass(p)}>{p}</b></li>)}</ul>
         </div>
 
         <!-- 3. Kolar & Lengan -->
         <div class="price-block">
           <h3><span class="num">3</span> Kolar &amp; Lengan <small>(Collar &amp; Sleeve)</small></h3>
           <h4>Jenis Kolar (Collar)</h4>
-          <ul class="price-list">
-            <li>Roundneck <b class="free">FREE</b></li>
-            <li>Polo <b>+RM3</b></li>
-            <li>V-Neck <b>+RM3</b></li>
-            <li>Retro <b>+RM3</b></li>
-            <li>Mandarin <b>+RM3</b></li>
-            <li>NFL <b>+RM3</b></li>
-            <li>Add Zipper <b>+RM2</b></li>
-          </ul>
+          <ul class="price-list">{kolar.map(([n, p]) => <li>{n} <b class={priceClass(p)}>{p}</b></li>)}</ul>
           <h4>Jenis Lengan (Sleeve)</h4>
-          <ul class="price-list">
-            <li>Shortsleeve <b class="free">FREE</b></li>
-            <li>Longsleeve <b>+RM3</b></li>
-            <li>Raglan <b>+RM4</b></li>
-            <li>Muslimah <b>+RM8</b></li>
-            <li>Sleeveless <b class="minus">-RM1</b></li>
-            <li>Singlet <b class="minus">-RM1 / -RM0.50</b></li>
-          </ul>
+          <ul class="price-list">{lengan.map(([n, p]) => <li>{n} <b class={priceClass(p)}>{p}</b></li>)}</ul>
         </div>
 
         <!-- 4 & 5 -->
         <div class="price-block">
           <h3><span class="num">4</span> Saiz Besar <small>(Upsize)</small></h3>
-          <ul class="price-list">
-            <li>3XL <b>+RM2</b></li>
-            <li>4XL <b>+RM4</b></li>
-            <li>5XL <b>+RM6</b></li>
-            <li>6XL <b>+RM8</b></li>
-            <li>7XL <b>+RM10</b></li>
-            <li>8XL <b>+RM12</b></li>
-            <li>Kids Size <b class="minus">-RM2</b></li>
-          </ul>
+          <ul class="price-list">{upsize.map(([n, p]) => <li>{n} <b class={priceClass(p)}>{p}</b></li>)}</ul>
 
           <h3 class="mt"><span class="num">5</span> Lain-lain <small>(Others)</small></h3>
-          <ul class="price-list">
-            <li>Backtape <b>+RM1</b></li>
-            <li>Cuff <b>+RM3</b></li>
-            <li>Grip <b>+RM2</b></li>
-            <li>Pocket <b>+RM3</b></li>
-            <li>Rib <b>+RM2</b></li>
-            <li>Name / Number <b>+RM3</b></li>
-          </ul>
+          <ul class="price-list">{lain.map(([n, p]) => <li>{n} <b class={priceClass(p)}>{p}</b></li>)}</ul>
         </div>
       </div>
 
       <!-- Poster -->
       <figure class="poster zoomable" data-caption="Poster Senarai Harga Rasmi LUQS Collection">
-        <img src="images/poster-harga.jpeg" alt="Poster Senarai Harga Rasmi LUQS Collection" loading="lazy">
+        <Pic file="poster-harga.jpeg" alt="Poster Senarai Harga Rasmi LUQS Collection" sizes="(max-width: 1100px) 100vw, 1100px" />
         <span class="zoom-hint">🔍 Klik Besarkan Poster</span>
         <figcaption>Poster Senarai Harga Rasmi LUQS Collection</figcaption>
       </figure>
@@ -254,7 +254,7 @@
         <p>Nak dapatkan quotation tepat mengikut kuantiti &amp; spesifikasi tempahan anda?</p>
         <div class="hero-cta">
           <a href="#hubungi" class="btn btn-primary">Tempah Sekarang / Lock Slot</a>
-          <a href="https://wa.me/601157812217?text=Hi%20LUQS%20Collection%2C%20saya%20nak%20minta%20quotation." target="_blank" rel="noopener" class="btn btn-wa">Minta Quotation di WhatsApp</a>
+          <a href={wa("Hi LUQS Collection, saya nak minta quotation.")} target="_blank" rel="noopener" class="btn btn-wa">Minta Quotation di WhatsApp</a>
         </div>
       </div>
     </div>
@@ -270,53 +270,22 @@
       </div>
 
       <div class="gallery-grid">
-        <article class="gallery-card">
-          <figure class="zoomable" data-caption="Jersi Pasukan Futsal / Sukan RNI">
-            <img src="images/galeri-futsal.jpeg" alt="Jersi Pasukan Futsal / Sukan RNI" loading="lazy">
-            <span class="gallery-tag">Jersi Futsal &amp; Sukan</span>
-          </figure>
-          <div class="gallery-body">
-            <h3>Jersi Pasukan Futsal / Sukan RNI</h3>
-            <p>Cetakan full sublimation corak eksklusif, kain ringan &amp; cepat serap peluh.</p>
-          </div>
-        </article>
-
-        <article class="gallery-card">
-          <figure class="zoomable" data-caption="Baju Program Sekolah / Terapi Boling & Sambutan Hari Lahir Murid PPKI">
-            <img src="images/galeri-sekolah-ppki.jpeg" alt="Baju Program Sekolah Terapi Boling & Sambutan Hari Lahir Murid PPKI" loading="lazy">
-            <span class="gallery-tag">Program Sekolah &amp; PPKI</span>
-          </figure>
-          <div class="gallery-body">
-            <h3>Baju Program Sekolah / Terapi Boling &amp; Sambutan Hari Lahir Murid PPKI</h3>
-            <p>Tempahan pukal warga pendidik &amp; murid SMK Belara dengan potongan Muslimah &amp; standard.</p>
-          </div>
-        </article>
-
-        <article class="gallery-card">
-          <figure class="zoomable" data-caption="Baju Kejohanan Catur & Program Sekolah">
-            <img src="images/galeri-catur.jpeg" alt="Baju Kejohanan Catur & Program Sekolah" loading="lazy">
-            <span class="gallery-tag">Kejohanan Catur</span>
-          </figure>
-          <div class="gallery-body">
-            <h3>Baju Kejohanan Catur &amp; Program Sekolah</h3>
-            <p>Seragam rasmi peserta dan urusetia kejohanan, kemas dan selesa dipakai sepanjang hari.</p>
-          </div>
-        </article>
-
-        <article class="gallery-card">
-          <figure class="zoomable" data-caption="Baju Korporat / Batik Sublimation Kontinjen Pelajar Universiti">
-            <img src="images/galeri-universiti.jpeg" alt="Baju Korporat Batik Sublimation Kontinjen Pelajar Universiti" loading="lazy">
-            <span class="gallery-tag">Kontinjen Universiti</span>
-          </figure>
-          <div class="gallery-body">
-            <h3>Baju Korporat / Batik Sublimation Kontinjen Pelajar Universiti</h3>
-            <p>Kolar mandarin/polo moden dengan motif batik eksklusif &amp; identiti rasmi kontinjen pelajar.</p>
-          </div>
-        </article>
+        {galeri.map((g) => (
+          <article class="gallery-card">
+            <figure class="zoomable" data-caption={g.title}>
+              <Pic file={g.file} alt={g.title} sizes="(max-width: 768px) 100vw, 33vw" />
+              <span class="gallery-tag">{g.tag}</span>
+            </figure>
+            <div class="gallery-body">
+              <h3>{g.title}</h3>
+              <p>{g.desc}</p>
+            </div>
+          </article>
+        ))}
 
         <article class="gallery-card gallery-card--wide">
           <figure class="zoomable" data-caption="Set Baju Larian, Running Bib & Medal Besi Neon Run — RM35/set">
-            <img src="images/galeri-neon-run.jpeg" alt="Set Baju Larian, Running Bib & Medal Besi Neon Run" loading="lazy">
+            <Pic file="galeri-neon-run.jpeg" alt="Set Baju Larian, Running Bib & Medal Besi Neon Run" />
             <span class="gallery-tag gallery-tag--hot">COMBO RM35 / SET</span>
           </figure>
           <div class="gallery-body">
@@ -340,31 +309,20 @@
       </div>
 
       <div class="testi-grid">
-        <article class="testi-card">
-          <figure class="testi-shot zoomable" data-caption="Feedback: Program Mahasiswa Untuk Semua">
-            <img src="images/testimoni-mahasiswa.jpeg" alt="Screenshot Feedback Program Mahasiswa Untuk Semua" loading="lazy">
-            <span class="zoom-hint">Klik baca mesej penuh</span>
-          </figure>
-          <div class="stars" aria-label="5 daripada 5 bintang">★★★★★ <small>(5.0 / 5.0)</small></div>
-          <blockquote>"Size ngam, print baju pon sangat detail ikut design yang diberi. Langsung tak pecah... Untuk harga sangat berbaloi dengan kualiti serta baju siap dalam masa yang diberikan."</blockquote>
-          <div class="testi-author">
-            <span class="avatar">PM</span>
-            <div><strong>Program Mahasiswa Untuk Semua</strong><small>✔ Tempahan Disahkan</small></div>
-          </div>
-        </article>
-
-        <article class="testi-card">
-          <figure class="testi-shot zoomable" data-caption="Feedback: Danish Adam (UTM)">
-            <img src="images/testimoni-danish.jpeg" alt="Screenshot Feedback Danish Adam UTM" loading="lazy">
-            <span class="zoom-hint">Klik baca mesej penuh</span>
-          </figure>
-          <div class="stars" aria-label="5 daripada 5 bintang">★★★★★ <small>(5.0 / 5.0)</small></div>
-          <blockquote>"Kualiti tiptop memang padu gilee... dari segi kain tu selesa sangat ketika untuk bersukan ni dan cepat serap peluh memang sangat recommended dan untuk servis pula memang admin selalu balas chat dengan laju tak sampai seminit pun dah balas..."</blockquote>
-          <div class="testi-author">
-            <span class="avatar">DA</span>
-            <div><strong>Danish Adam (UTM)</strong><small>✔ Tempahan Disahkan</small></div>
-          </div>
-        </article>
+        {testimoni.map((t) => (
+          <article class="testi-card">
+            <figure class="testi-shot zoomable" data-caption={`Feedback: ${t.name}`}>
+              <Pic file={t.file} alt={`Screenshot Feedback ${t.name}`} sizes="(max-width: 768px) 100vw, 50vw" />
+              <span class="zoom-hint">Klik baca mesej penuh</span>
+            </figure>
+            <div class="stars" aria-label="5 daripada 5 bintang">★★★★★ <small>(5.0 / 5.0)</small></div>
+            <blockquote>"{t.quote}"</blockquote>
+            <div class="testi-author">
+              <span class="avatar">{t.initials}</span>
+              <div><strong>{t.name}</strong><small>✔ Tempahan Disahkan</small></div>
+            </div>
+          </article>
+        ))}
       </div>
     </div>
   </section>
@@ -375,7 +333,7 @@
       <div>
         <span class="section-tag">RESPON PANTAS BAWAH 1 MINIT</span>
         <h2>Tempahan &amp; Pertanyaan Pantas</h2>
-        <p>Hubungi talian WhatsApp rasmi kami di <a href="https://wa.me/601157812217" target="_blank" rel="noopener" class="wa-link">+60 11-5781 2217</a> atau isi borang di bawah untuk terus hantar butiran tempahan anda.</p>
+        <p>Hubungi talian WhatsApp rasmi kami di <a href={wa()} target="_blank" rel="noopener" class="wa-link">{WA_DISPLAY}</a> atau isi borang di bawah untuk terus hantar butiran tempahan anda.</p>
         <ul class="contact-points">
           <li>✅ Design custom ikut identiti anda</li>
           <li>✅ Harga kilang terus — lebih banyak lebih murah</li>
@@ -396,11 +354,7 @@
           Jenis Tempahan <span class="req">*</span>
           <select name="jenis" id="jenisTempahan" required>
             <option value="">— Pilih jenis tempahan —</option>
-            <option>Pakej Larian RM35 / Set</option>
-            <option>Jersi Sukan / Futsal</option>
-            <option>Baju Korporat / Batik</option>
-            <option>Baju Program Sekolah / Universiti</option>
-            <option>Lain-lain</option>
+            {jenisTempahan.map((j) => <option>{j}</option>)}
           </select>
         </label>
         <label>
@@ -414,7 +368,7 @@
         <p class="form-error" id="formError" hidden>Sila isi semua ruangan bertanda *.</p>
         <button type="submit" class="btn btn-wa btn-block">
           Lock Slot &amp; Hantar Butiran
-          <small>Terus ke WhatsApp (+60 11-5781 2217)</small>
+          <small>Terus ke WhatsApp ({WA_DISPLAY})</small>
         </button>
       </form>
     </div>
@@ -429,21 +383,17 @@
           <span class="logo-text"><strong>LUQS COLLECTION</strong></span>
         </a>
         <p>Pakar Custom Jersey, Sublimation Printing, Baju Korporat &amp; Set Event Larian.</p>
-        <p>WhatsApp Rasmi: <a href="https://wa.me/601157812217" target="_blank" rel="noopener">+60 11-5781 2217</a></p>
+        <p>WhatsApp Rasmi: <a href={wa()} target="_blank" rel="noopener">{WA_DISPLAY}</a></p>
       </div>
       <nav class="footer-links">
-        <a href="#pakej">Pakej Larian RM35</a>
-        <a href="#harga">Senarai Harga</a>
-        <a href="#galeri">Galeri Tempahan</a>
-        <a href="#testimoni">Testimoni</a>
-        <a href="#hubungi">Hubungi Kami</a>
+        {nav.map(([href, label]) => <a href={href}>{label}</a>)}
       </nav>
     </div>
-    <p class="copyright">© <span id="year">2026</span> LUQS Collection. Hak Cipta Terpelihara.</p>
+    <p class="copyright">© <span id="year">{year}</span> LUQS Collection. Hak Cipta Terpelihara.</p>
   </footer>
 
   <!-- Floating WhatsApp button -->
-  <a href="https://wa.me/601157812217" target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp Kami">
+  <a href={wa()} target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp Kami">
     <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor" aria-hidden="true"><path d="M16.04 3C9.4 3 4 8.38 4 15.01c0 2.12.56 4.19 1.62 6.01L4 29l8.17-1.6a12.05 12.05 0 0 0 3.87.64C22.68 28.04 28 22.66 28 16.03 28 9.4 22.68 3 16.04 3Zm0 22.86c-1.23 0-2.44-.24-3.57-.71l-.26-.11-4.85.95.97-4.71-.17-.27a9.9 9.9 0 0 1-1.52-5.28c0-5.5 4.47-9.98 9.4-9.98 5.48 0 9.79 4.48 9.79 9.98s-4.31 10.13-9.79 10.13Zm5.48-7.43c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.08.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z"/></svg>
     <span>WhatsApp Kami</span>
   </a>
@@ -455,6 +405,6 @@
     <p id="lightboxCaption"></p>
   </div>
 
-  <script src="assets/js/main.js"></script>
+  <script src="../scripts/main.js"></script>
 </body>
 </html>

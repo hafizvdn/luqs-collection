@@ -18,20 +18,6 @@ navLinks.querySelectorAll("a").forEach((a) =>
   })
 );
 
-// --- Gambar belum upload: papar kotak placeholder ---
-document.querySelectorAll("img").forEach((img) => {
-  const showPlaceholder = () => {
-    if (img.dataset.missing) return;
-    img.dataset.missing = "1";
-    const box = document.createElement("div");
-    box.className = "img-missing";
-    box.textContent = "📷 Letak gambar di: " + img.getAttribute("src");
-    img.replaceWith(box);
-  };
-  img.addEventListener("error", showPlaceholder);
-  if (img.complete && img.naturalWidth === 0) showPlaceholder();
-});
-
 // --- Lightbox: klik gambar untuk besarkan ---
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightboxImg");
@@ -41,7 +27,7 @@ document.querySelectorAll(".zoomable").forEach((el) => {
   el.addEventListener("click", () => {
     const img = el.querySelector("img");
     if (!img) return; // gambar belum ada
-    lightboxImg.src = img.src;
+    lightboxImg.src = img.dataset.full || img.currentSrc;
     lightboxImg.alt = img.alt;
     lightboxCaption.textContent = el.dataset.caption || img.alt;
     lightbox.hidden = false;
@@ -89,6 +75,3 @@ form.addEventListener("submit", (e) => {
 
   window.open("https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(message), "_blank");
 });
-
-// --- Tahun semasa di footer ---
-document.getElementById("year").textContent = new Date().getFullYear();

@@ -1,36 +1,37 @@
 # LUQS Collection — Website
 
 Laman web statik untuk **LUQS Collection** (Custom Jersey & Sublimation Printing).
-Tiada framework, tiada install, cuma HTML + CSS + JavaScript biasa.
+Dibina dengan [Astro](https://astro.build) — hasilnya tetap HTML statik yang laju.
 
 ## Struktur fail
 
 ```
-index.html              ← SEMUA teks & harga ada di sini
-assets/css/style.css    ← warna & rupa (tukar warna di bahagian :root paling atas)
-assets/js/main.js       ← menu, popup gambar, borang ke WhatsApp
-images/                 ← letak semua gambar di sini
-.github/workflows/      ← auto-publish ke GitHub Pages
+src/pages/index.astro      ← SEMUA teks & harga ada di sini (senarai harga/galeri/testimoni di bahagian atas fail)
+src/styles/style.css       ← warna & rupa (tukar warna di bahagian :root paling atas)
+src/scripts/main.js        ← menu, popup gambar, borang ke WhatsApp
+src/components/Pic.astro   ← paparan gambar (auto-kecilkan saiz)
+src/assets/images/         ← letak semua gambar di sini
+.github/workflows/         ← auto-build & publish ke GitHub Pages
 ```
 
 ## Gambar yang perlu dimasukkan
 
-Upload gambar ke folder `images/` dengan **nama fail tepat** seperti di bawah (huruf kecil, `.jpg`).
+Upload gambar ke folder `src/assets/images/` dengan **nama fail tepat** seperti di bawah (huruf kecil, `.jpeg`).
 Selagi gambar belum ada, website akan tunjuk kotak kelabu dengan nama fail yang diperlukan.
 
 | Nama fail | Gambar |
 |---|---|
-| `pakej-larian.jpg` | Set Lengkap Neon Run (baju + bib + medal) |
-| `poster-harga.jpg` | Poster senarai harga rasmi |
-| `galeri-futsal.jpg` | Jersi Futsal / Sukan RNI |
-| `galeri-sekolah-ppki.jpg` | Baju Program Sekolah / PPKI |
-| `galeri-catur.jpg` | Baju Kejohanan Catur |
-| `galeri-universiti.jpg` | Baju Batik Kontinjen Universiti |
-| `galeri-neon-run.jpg` | Set Neon Run (galeri) |
-| `testimoni-mahasiswa.jpg` | Screenshot WhatsApp: Program Mahasiswa |
-| `testimoni-danish.jpg` | Screenshot WhatsApp: Danish Adam (UTM) |
+| `pakej-larian.jpeg` | Set Lengkap Neon Run (baju + bib + medal) |
+| `poster-harga.jpeg` | Poster senarai harga rasmi |
+| `galeri-futsal.jpeg` | Jersi Futsal / Sukan RNI |
+| `galeri-sekolah-ppki.jpeg` | Baju Program Sekolah / PPKI |
+| `galeri-catur.jpeg` | Baju Kejohanan Catur |
+| `galeri-universiti.jpeg` | Baju Batik Kontinjen Universiti |
+| `galeri-neon-run.jpeg` | Set Neon Run (galeri) |
+| `testimoni-mahasiswa.jpeg` | Screenshot WhatsApp: Program Mahasiswa |
+| `testimoni-danish.jpeg` | Screenshot WhatsApp: Danish Adam (UTM) |
 
-Tip: kecilkan saiz gambar dulu (contoh guna https://squoosh.app) supaya website laju — sasaran bawah 300KB setiap gambar.
+Saiz gambar tak perlu dikecilkan sendiri — Astro auto-tukar ke WebP & beberapa saiz masa build.
 
 ## Cara publish (sekali sahaja)
 
@@ -44,9 +45,15 @@ Lepas ni, setiap kali edit & push ke `main`, website akan update sendiri.
 
 ## Cara edit tanpa coding
 
-- Di GitHub, buka `index.html` → tekan ikon pensel ✏️ → ubah teks / harga → **Commit changes**.
-- Untuk tambah gambar: buka folder `images` → **Add file → Upload files**.
+- Di GitHub, buka `src/pages/index.astro` → tekan ikon pensel ✏️ → ubah teks / harga → **Commit changes**.
+- Untuk tambah gambar: buka folder `src/assets/images` → **Add file → Upload files**.
 
 ## Tengok di komputer sendiri
 
-Double-click `index.html` — terus buka dalam browser.
+Perlu [Node.js](https://nodejs.org) (versi LTS).
+
+```
+npm install      # sekali sahaja
+npm run dev      # buka http://localhost:4321/luqs-collection/
+npm run build    # semak build (sama macam GitHub Actions)
+```
